@@ -1,0 +1,22 @@
+# Imagen base optimizada con Python 3.11 (Amazon Linux es basado en CentOS, por lo que "slim" no siempre es ideal)
+FROM python:3.11-slim
+
+# Configurar directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias necesarias
+RUN pip install --no-cache-dir grpcio grpcio-tools
+
+# Copiar archivos de la aplicación
+COPY backends/grpc_backend.py /app/grpc_backend.py
+COPY backends/service.proto /app/service.proto
+COPY backends/service_pb2_grpc.py /app/service_pb2_grpc.py
+COPY backends/service_pb2.py /app/service_pb2.py
+COPY attachments/sample.pdf /app/sample.pdf
+
+
+# Exponer el puerto gRPC
+EXPOSE 50051
+
+# Ejecutar gRPC Server en segundo plano
+CMD ["python3", "grpc_backend.py"]

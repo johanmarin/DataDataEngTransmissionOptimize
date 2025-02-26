@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package yourpackage;
+
+message Request {
+  string message = 1;
+}
+
+message Response {
+  string message = 1;
+}
+
+service Backend {
+  rpc Call(stream Request) returns (stream Response);
+}

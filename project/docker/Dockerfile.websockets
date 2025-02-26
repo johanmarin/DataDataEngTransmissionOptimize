@@ -1,0 +1,18 @@
+# Usar una imagen base optimizada con Python
+FROM python:3.11-slim
+
+# Establecer el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copiar los archivos necesarios
+COPY backends/websockets_backend.py /app/websockets_backend.py
+COPY attachments/sample.pdf /app/sample.pdf
+
+# Instalar dependencias, incluyendo WebSockets
+RUN pip install --no-cache-dir fastapi uvicorn[standard] websockets
+
+# Exponer el puerto WebSockets
+EXPOSE 8000
+
+# Comando para ejecutar el servidor
+CMD ["python", "-m", "uvicorn", "websockets_backend:app", "--host", "0.0.0.0", "--port", "8000"]

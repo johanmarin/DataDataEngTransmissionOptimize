@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias necesarias (incluyendo aiofiles para I/O asíncrono)
+RUN pip install --no-cache-dir fastapi uvicorn aiofiles
+
+# Copiar el código y otros archivos necesarios
+COPY backends/fastapi_backend.py /app/fastapi_backend.py
+COPY attachments/sample.pdf /app/sample.pdf
+
+# Ejecutar FastAPI con Uvicorn
+CMD ["uvicorn", "fastapi_backend:app", "--host", "0.0.0.0", "--port", "8000"]

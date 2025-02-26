@@ -1,0 +1,12 @@
+# Imagen base oficial de AWS Lambda con Python 3.12
+FROM public.ecr.aws/lambda/python:3.12
+
+# Copiar los archivos del backend a la imagen
+COPY backends/apirest_lambda.py /var/task/main.py
+COPY attachments/sample.pdf /var/task/sample.pdf
+
+# Instalar dependencias en la imagen
+RUN pip install --no-cache-dir fastapi uvicorn mangum boto3
+
+# Definir el handler de Lambda
+CMD ["main.lambda_handler"]
